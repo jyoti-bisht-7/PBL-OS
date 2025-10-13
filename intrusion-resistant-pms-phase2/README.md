@@ -13,29 +13,29 @@ The Intrusion-Resistant Process Management System (IRPMS) Phase 2 is a comprehen
 - **Location:** src/intrusion_detection/detection.py
 - **How it works:**
    - Monitors simulated process attributes (CPU usage, memory usage, process creation rate, waiting time).
-   Flags suspicious processes if:
-      CPU or memory usage exceeds a threshold (e.g., >70%)
-      Too many processes created in a short time (fork bomb)
-      Process is waiting/starved for too long
-   Generates alerts for the dashboard.
+   - Flags suspicious processes if:
+      - CPU or memory usage exceeds a threshold (e.g., >70%)
+      - Too many processes created in a short time (fork bomb)
+      - Process is waiting/starved for too long
+   - Generates alerts for the dashboard.
    
 ## Mitigation Logic
-Location: src/mitigation/mitigation.py
-How it works:
-   Responds to detected threats by:
-      Throttling (reducing CPU allocation)
-      Lowering process priority
-      Terminating processes that exceed safe limits
-   Logs mitigation actions to the database.
+- **Location:** src/mitigation/mitigation.py
+- **How it works:**
+   - Responds to detected threats by:
+      - Throttling (reducing CPU allocation)
+      - Lowering process priority
+      - Terminating processes that exceed safe limits
+   - Logs mitigation actions to the database.
 
 ## Scheduling Logic
-Location: src/simulator/scheduler.py
-How it works:
-   Simulates Round Robin + Priority Scheduling with Aging:
-      Processes are scheduled based on priority and time slices.
-      Aging increases priority of waiting processes to prevent starvation.
-      Manages process queues (Ready, Waiting, Sandbox).
-   Updates process states and statistics for the dashboard.
+- **Location:** src/simulator/scheduler.py
+- **How it works:**
+   - Simulates Round Robin + Priority Scheduling with Aging:
+     - Processes are scheduled based on priority and time slices.
+     - Aging increases priority of waiting processes to prevent starvation.
+     - Manages process queues (Ready, Waiting, Sandbox).
+   - Updates process states and statistics for the dashboard.
    
 ## Project Structure
 ```
