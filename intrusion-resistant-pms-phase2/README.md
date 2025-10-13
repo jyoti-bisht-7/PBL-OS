@@ -12,7 +12,7 @@ The Intrusion-Resistant Process Management System (IRPMS) Phase 2 is a comprehen
 ## Detection Logic
 - **Location:** src/intrusion_detection/detection.py
 - **How it works:**
-   Monitors simulated process attributes (CPU usage, memory usage, process creation rate, waiting time).
+   - Monitors simulated process attributes (CPU usage, memory usage, process creation rate, waiting time).
    Flags suspicious processes if:
       CPU or memory usage exceeds a threshold (e.g., >70%)
       Too many processes created in a short time (fork bomb)
