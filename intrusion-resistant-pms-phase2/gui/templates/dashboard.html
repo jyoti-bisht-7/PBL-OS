@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Intrusion-Resistant Process Manager</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Intrusion-Resistant Process Manager</h1>
+        <div class="main-grid">
+            <div class="panel processes">
+                <h2>Processes</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>PID</th>
+                            <th>Process Name</th>
+                            <th>CPU %</th>
+                            <th>Memory %</th>
+                            <th>Priority</th>
+                            <th>User</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in processes %}
+                        <tr {% if p.priority == 'High' or p.cpu > 50 or p.memory > 20 %}class="alert"{% endif %}>
+                            <td>{{ p.pid }}</td>
+                            <td>{{ p.name }}</td>
+                            <td {% if p.cpu > 50 %}class="alert"{% endif %}>{{ p.cpu }}</td>
+                            <td {% if p.memory > 20 %}class="alert"{% endif %}>{{ p.memory }}</td>
+                            <td {% if p.priority == 'High' %}class="alert"{% endif %}>{{ p.priority }}</td>
+                            <td>{{ p.user }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="charts-row">
+                    <div class="chart-box">
+                        <h3>CPU Usage</h3>
+                        <canvas id="cpuChart"></canvas>
+                    </div>
+                    <div class="chart-box">
+                        <h3>Memory Usage</h3>
+                        <canvas id="memChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="panel alerts">
+                <h2>Alerts</h2>
+                <ul>
+                    {% for alert in alerts %}
+                    <li>{{ alert.time }} - {{ alert.message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="panel controls">
+                <h2>Admin Controls</h2>
+                <form method="post" action="/kill">
+                    <button type="submit">Kill Process</button>
+                </form>
+                <form method="post" action="/set_priority">
+                    <button type="submit">Set Priority</button>
+                </form>
+                <form method="post" action="/isolate">
+                    <button type="submit">Isolate User</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/chart.js') }}"></script>
+    <script>
+const cpuLabels = {{ cpu_labels | safe }};
+const cpuData = {{ cpu_data | safe }};
+const memLabels = {{ mem_labels | safe }};
+const memData = {{ mem_data | safe }};
+
+const cpuCtx = document.getElementById('cpuChart').getContext('2d');
+new Chart(cpuCtx, {
+    type: 'line',
+    data: {
+        labels: cpuLabels,
+        datasets: [{ label: 'CPU Usage (%)', data: cpuData, borderColor: 'rgba(231,76,60,1)', backgroundColor: 'rgba(231,76,60,0.2)', fill: true, tension: 0.3 }]
+    },
+    options: { scales: { y: { min: 0, max: 100 } } }
+});
+
+const memCtx = document.getElementById('memChart').getContext('2d');
+new Chart(memCtx, {
+    type: 'pie',
+    data: {
+        labels: memLabels,
+        datasets: [{ data: memData, backgroundColor: ['rgba(46,204,113,0.7)', 'rgba(52,152,219,0.7)', 'rgba(231,76,60,0.7)'] }]
+    }
+});
+</script>
+</body>
+</html>
