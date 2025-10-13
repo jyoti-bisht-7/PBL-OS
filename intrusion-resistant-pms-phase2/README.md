@@ -10,8 +10,8 @@ The Intrusion-Resistant Process Management System (IRPMS) Phase 2 is a comprehen
 - **GUI Dashboard**: A user-friendly interface that displays real-time data on active processes, resource usage, and alerts related to potential intrusions.
 
 ## Detection Logic
-Location: src/intrusion_detection/detection.py
-How it works:
+- **Location:** src/intrusion_detection/detection.py
+- **How it works:**
    Monitors simulated process attributes (CPU usage, memory usage, process creation rate, waiting time).
    Flags suspicious processes if:
       CPU or memory usage exceeds a threshold (e.g., >70%)
