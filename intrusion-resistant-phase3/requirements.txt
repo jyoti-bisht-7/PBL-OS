@@ -1,6 +1,0 @@
-Flask==2.2.2
-psutil==5.9.0
-python-dotenv==0.20.0
-requests==2.26.0
-Chart.js==3.7.0
-lucide-icons==0.263.1
