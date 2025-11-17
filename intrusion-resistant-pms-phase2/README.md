@@ -1,94 +1,68 @@
-# Intrusion-Resistant Process Management System - Phase 2
+# Intrusion-Resistant Process Management System
 
 ## Overview
-The Intrusion-Resistant Process Management System (IRPMS) Phase 2 is a comprehensive simulator that integrates operating system scheduling concepts with advanced cybersecurity defense mechanisms. This project aims to provide a robust framework for managing processes while ensuring system integrity against potential intrusions.
+The Intrusion-Resistant Process Management System is designed to monitor and manage system processes, detect potential intrusions, and mitigate threats in real-time. This project aims to enhance system security by analyzing real system data and simulating attack scenarios.
 
 ## Features
-- **Flask Backend**: A lightweight web framework that serves as the backbone of the application, handling requests and responses.
-- **Intrusion Detection Module**: Monitors system behavior to identify suspicious activities based on CPU and memory usage patterns, process creation rates, and waiting times.
-- **Mitigation Module**: Implements strategies to manage malicious processes by adjusting their priority or terminating them when they exceed predefined limits.
-- **GUI Dashboard**: A user-friendly interface that displays real-time data on active processes, resource usage, and alerts related to potential intrusions.
+- Real-time monitoring of system processes
+- Intrusion detection based on CPU usage and process limits
+- Automated mitigation actions for suspicious processes
+- User-friendly dashboard for visualizing system metrics and alerts
+- API endpoints for fetching active processes, CPU and memory usage, and intrusion alerts
 
-## Detection Logic
-- **Location:** src/intrusion_detection/detection.py
-- **How it works:**
-   - Monitors simulated process attributes (CPU usage, memory usage, process creation rate, waiting time).
-   - Flags suspicious processes if:
-      - CPU or memory usage exceeds a threshold (e.g., >70%)
-      - Too many processes created in a short time (fork bomb)
-      - Process is waiting/starved for too long
-   - Generates alerts for the dashboard.
-   
-## Mitigation Logic
-- **Location:** src/mitigation/mitigation.py
-- **How it works:**
-   - Responds to detected threats by:
-      - Throttling (reducing CPU allocation)
-      - Lowering process priority
-      - Terminating processes that exceed safe limits
-   - Logs mitigation actions to the database.
-
-## Scheduling Logic
-- **Location:** src/simulator/scheduler.py
-- **How it works:**
-   - Simulates Round Robin + Priority Scheduling with Aging:
-     - Processes are scheduled based on priority and time slices.
-     - Aging increases priority of waiting processes to prevent starvation.
-     - Manages process queues (Ready, Waiting, Sandbox).
-   - Updates process states and statistics for the dashboard.
-   
 ## Project Structure
 ```
-intrusion-resistant-pms-phase2
-├── src
-│   ├── app.py
-│   ├── simulator
-│   │   ├── __init__.py
-│   │   └── scheduler.py
-│   ├── intrusion_detection
-│   │   ├── __init__.py
-│   │   └── detection.py
-│   ├── mitigation
-│   │   ├── __init__.py
-│   │   └── mitigation.py
-│   ├── dashboard
-│   │   ├── __init__.py
+intrusion-resistant-pms-phase3
+├── run.py                  # Entry point for the application
+├── src                     # Source code for the application
+│   ├── app.py              # Flask application instance and module initialization
+│   ├── config.py           # Configuration settings for the application
+│   ├── dashboard            # Dashboard routes and API endpoints
 │   │   └── routes.py
-│   └── config.py
-├── requirements.txt
-├── README.md
-└── run.py
+│   ├── intrusion_detection   # Intrusion detection logic
+│   │   └── detection.py
+│   ├── mitigation           # Threat mitigation functions
+│   │   └── mitigation.py
+│   ├── simulator            # Simulator for process metrics and scheduling
+│   │   ├── engine.py
+│   │   ├── scheduler.py
+│   │   └── system_resources.py
+├── gui                     # Frontend files for the dashboard
+│   ├── templates
+│   │   └── dashboard.html   # HTML template for the dashboard
+│   └── static
+│       ├── css
+│       │   └── styles.css   # CSS styles for the dashboard
+│       └── js
+│           └── chart.js     # JavaScript for dynamic dashboard updates
+├── requirements.txt        # Python dependencies for the project
+└── README.md               # Documentation for the project
 ```
 
-## Setup Instructions
-1. **Clone the Repository**: 
+## Installation
+1. Clone the repository:
    ```
    git clone <repository-url>
-   cd intrusion-resistant-pms-phase2
+   cd intrusion-resistant-pms-phase3
    ```
 
-2. **Install Dependencies**: 
-   Ensure you have Python installed, then run:
+2. Install the required dependencies:
    ```
    pip install -r requirements.txt
    ```
 
-3. **Run the Application**: 
-   Start the Flask application by executing:
+3. Set up environment variables as needed for configuration.
+
+## Usage
+1. Start the application:
    ```
    python run.py
    ```
 
-4. **Access the Dashboard**: 
-   Open your web browser and navigate to `http://localhost:5000` to access the GUI dashboard.
-
-## Usage
-- Monitor active processes and their resource usage.
-- View alerts for any detected intrusions.
-- Adjust process priorities and manage system resources effectively.
+2. Access the dashboard at `http://localhost:5000` in your web browser.
 
 ## Contributing
 Contributions are welcome! Please submit a pull request or open an issue for any enhancements or bug fixes.
 
 ## License
-This project is licensed under the MIT License. See the LICENSE file for details.
+This project is licensed under the MIT License. See the LICENSE file for more details.
